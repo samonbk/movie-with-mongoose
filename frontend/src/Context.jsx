@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
+import { create } from "zustand";
 
 const GlobaleContext = createContext();
 
@@ -73,3 +74,27 @@ const Context = ({ children }) => {
 };
 
 export default Context;
+
+export const useMovieContext = create((set) => ({
+  movies: [],
+  setMovies: (movies) => set({ movies }),
+  fetchMovies: async () => {
+    try {
+      const apiUrl = "http://localhost:5000";
+
+      const res = await fetch(apiUrl + "/api/movies");
+
+      if (!res.ok) {
+        throw new Error(
+          `Failed to fetch movies: ${res.status} ${res.statusText}`
+        );
+      }
+
+      const data = await res.json();
+      set({ movies: data.data });
+    } catch (error) {
+      console.error("Error fetching movies:", error);
+      set({ movies: [] });
+    }
+  },
+}));

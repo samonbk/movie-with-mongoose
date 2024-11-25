@@ -3,13 +3,12 @@ import { BiPlus } from "react-icons/bi";
 import { BsThreeDots } from "react-icons/bs";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useGlobalContext } from "../Context";
+import { useGlobalContext, useMovieContext } from "../../Context";
 
 const DashBoard = () => {
   const { user, logged } = useGlobalContext();
   const location = useLocation();
   const navigate = useNavigate();
-  const [movie, setMovie] = useState([]);
   const [typemovie, setTypemove] = useState([]);
   const [typetvshow, setTypetvshow] = useState([]);
   const [generescifi, setGenerescifi] = useState([]);
@@ -49,143 +48,49 @@ const DashBoard = () => {
   const [updateid, setUpdateId] = useState();
   const [subwarning, setSubwarning] = useState(false);
 
-  useEffect(() => {
-    if (!user || !logged) {
-      navigate("/login");
-    }
-  }, [location, logged]);
+  // useEffect(() => {
+  //   if (!user || !logged) {
+  //     navigate("/login");
+  //   }
+  // }, [location, logged]);
 
   // Fetch get data from api
-  useEffect(() => {
-    fetch("https://samon-movieforkh-api.vercel.app")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => setMovie(data.moviedata))
-      .catch((error) =>
-        console.error(
-          "There has been a problem with your fetch operation:",
-          error
-        )
-      );
+  const { movies, fetchMovies } = useMovieContext();
 
-    const typetv = movie.filter((movie) => movie.type === "tv-show").length;
-    const typem = movie.filter((movie) => movie.type === "movie").length;
+  useEffect(() => {
+    fetchMovies();
+  }, [fetchMovies]);
+
+  useEffect(() => {
+    const typetv = movies.filter((movie) => movie.type === "tv-show").length;
+    const typem = movies.filter((movie) => movie.type === "movie").length;
     setTypemove(typem);
     setTypetvshow(typetv);
-    const scifi = movie.filter((movie) =>
+    const scifi = movies.filter((movie) =>
       movie.genere.toLowerCase().includes("sci-fi")
     ).length;
     setGenerescifi(scifi);
-    const cartoon = movie.filter((movie) =>
+    const cartoon = movies.filter((movie) =>
       movie.genere.toLowerCase().includes("cartoon")
     ).length;
     setGenerecartoon(cartoon);
-    const drama = movie.filter((movie) =>
+    const drama = movies.filter((movie) =>
       movie.genere.toLowerCase().includes("drama")
     ).length;
     setGeneredrama(drama);
-    const action = movie.filter((movie) =>
+    const action = movies.filter((movie) =>
       movie.genere.toLowerCase().includes("action")
     ).length;
     setGenereaction(action);
-    const horror = movie.filter((movie) =>
+    const horror = movies.filter((movie) =>
       movie.genere.toLowerCase().includes("horror")
     ).length;
     setGenerehorror(horror);
-  }, [movie]);
-
-  // Handle Delete
-  const handleDelete = (id) => {
-    const deletemovie = movie.find((movie) => movie.id === id)?.name;
-    fetch(`http://localhost:3000/moviedata/${id}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => {
-        if (response.ok) {
-          setDeleteId();
-          alert(deletemovie + " is deleted");
-        } else {
-          console.error("Failed to delete movie");
-          console.log(response);
-        }
-      })
-      .catch((error) => console.error("Error deleting movie:", error));
-  };
+  }, [movies]);
 
   // Adding submit
   // async
-  function handleAddSubmit(e) {
-    e.preventDefault();
-    const lastIndex = movie.length - 1;
-    const newId = lastIndex >= 0 ? parseInt(movie[lastIndex].id) + 1 : 1;
-    const newRuntime = runtime.toString() + "mn";
-    const newmovieObj = {
-      id: newId.toString(),
-      name,
-      img,
-      cover,
-      rate,
-      type,
-      runtime: newRuntime,
-      release,
-      genere,
-      detail,
-      trending,
-      source,
-    };
-    setSubwarning(true);
-    if (
-      newmovieObj.name != "" &&
-      newmovieObj.img != "" &&
-      newmovieObj.cover != "" &&
-      newmovieObj.rate != null &&
-      newmovieObj.runtime != "" &&
-      newmovieObj.genere != "" &&
-      newmovieObj.type != "" &&
-      newmovieObj.release != "" &&
-      newmovieObj.detail != "" &&
-      newmovieObj.source != ""
-    )
-      // try {
-      //   const response = await fetch("http://localhost:3000/moviedata", {
-      //     method: "POST",
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //     },
-      //     body: JSON.stringify(newmovieObj),
-      //   });
-
-      //   if (!response.ok) {
-      //     throw new Error("Failed to submit the form");
-      //   }
-
-      //   const result = await response.json();
-      //   console.log("Form submitted successfully:", result);
-      //   alert(newmovieObj.name + " is added");
-      //   handleCancelAdd();
-      // } catch (error) {
-      //   console.error("Error:", error);
-      // }
-      axios
-        .post("http://localhost:3000/moviedata", newmovieObj)
-        .then((response) => {
-          console.log("Movie added successfully:", response.data);
-          // Optionally, reset the form or give feedback to the user
-          // setMovie({ name: "", director: "", genre: "", year: "" });
-          alert(newmovieObj.name + " is added");
-          handleCancelAdd();
-        })
-        .catch((error) => {
-          console.error("There was an error adding the movie:", error);
-        });
-  }
+  function handleAddSubmit(e) {}
 
   //Cancel Adding
   function handleCancelAdd() {
@@ -205,7 +110,7 @@ const DashBoard = () => {
 
   // Add to trending
   function handleAddTrending(id) {
-    const newTrending = movie.find((movie) => movie.id == id)?.trending;
+    const newTrending = movies.find((movie) => movie.id == id)?.trending;
     const updatedMovie = { trending: !newTrending };
 
     fetch(`http://localhost:3000/moviedata/${id}`, {
@@ -309,14 +214,14 @@ const DashBoard = () => {
 
   return (
     <>
-      <div className="max-w-[1570px] m-auto px-2 overflow-x-auto">
+      <div className="max-w-[1570px] m-auto px-2">
         <div className="flex justify-between items-center">
           <h1 className="text-lg mt-4">Dashboard</h1>
         </div>
         <div className="mt-4 grid md:grid-cols-4 grid-cols-2 gap-10">
           <div className="rounded-xl bg-gray-500 h-[150px] flex flex-col gap-3 items-center justify-center">
             <h3 className="text-3xl">All</h3>
-            <span className="text-5xl">{movie.length}</span>
+            <span className="text-5xl">{movies.length}</span>
           </div>
           <div className="rounded-xl bg-blue-500 h-[150px] flex flex-col gap-3 items-center justify-center">
             <h3 className="text-3xl">Movies</h3>
@@ -358,98 +263,158 @@ const DashBoard = () => {
         </div>
 
         {/* Render  */}
-        <div className="max-w-[1570px] m-autooverflow-x-auto">
+        <div className="max-w-[1570px]">
           <div className="mt-4 min-w-[1000px]">
-            <div className="grid grid-cols-12 p-2 bg-slate-900">
-              <div className="col-span-1 flex items-center">Poster</div>
-              <div className="col-span-4 flex items-center">
-                <h2>Name</h2>
-              </div>
-              <div className="col-span-1 flex items-center justify-center">
-                <span>Genere</span>
-              </div>
-              <div className="col-span-1 flex items-center justify-end">
-                <span>Run time</span>
-              </div>
-              <div className="col-span-1 flex items-center justify-end">
-                <span>Rate</span>
-              </div>
-              <div className="col-span-1 flex items-center justify-end">
-                <span>Type</span>
-              </div>
-              <div className="col-span-1 flex items-center justify-end">
-                <span>Trending</span>
-              </div>
-              <div className="col-span-1 flex items-center justify-end">
-                <span>Release year</span>
-              </div>
-              <div className="col-span-1 flex justify-end"></div>
-            </div>
-            {movie.map(
-              ({
-                id,
-                img,
-                name,
-                genere,
-                rate,
-                release,
-                runtime,
-                type,
-                trending,
-              }) => (
-                <div key={id} className="grid grid-cols-12 bg-slate-900 mt-2">
-                  <div className="col-span-1 ">
-                    <img className="max-w-[70px]" src={img} alt={name} />
-                  </div>
-                  <div className="col-span-4 ">
-                    <h2>{name}</h2>
-                  </div>
-                  <div className="col-span-1 text-right">
-                    <span>{genere}</span>
-                  </div>
-                  <div className="col-span-1 text-right">
-                    <span>{runtime}</span>
-                  </div>
-                  <div className="col-span-1 text-right">
-                    <span>{rate}/10</span>
-                  </div>
-                  <div className="col-span-1 text-right">
-                    <span>{type}</span>
-                  </div>
-                  <div className="col-span-1 text-center pl-8">
-                    <span>{trending ? "trening" : "not"}</span>
-                  </div>
-                  <div className="col-span-1 text-right">
-                    <span>{release}</span>
-                  </div>
-                  <div className="col-span-1 flex justify-end items-start text-2xl">
-                    <div className=" relative group">
-                      <BsThreeDots />
-                      <div className="absolute -right-2 top-5 hidden group-hover:block text-xs rounded-md overflow-hidden bg-slate-700 w-[150px] text-right z-40">
-                        <button
-                          className="hover:bg-slate-600 p-3 w-full text-right"
-                          onClick={() => handleAddTrending(id)}
+            <h3 class="text-gray-700 text-3xl font-medium">Tables</h3>
+
+            <div class="mt-8">
+              <h4 class="text-gray-600">Table with pagination</h4>
+
+              <div class="mt-6">
+                <h2 class="text-xl font-semibold text-gray-700 leading-tight">
+                  Users
+                </h2>
+
+                <div class="mt-3 flex flex-col sm:flex-row">
+                  <div class="flex">
+                    <div class="relative">
+                      <select class="appearance-none h-full rounded-l border block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+                        <option>5</option>
+                        <option>10</option>
+                        <option>20</option>
+                      </select>
+
+                      <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                        <svg
+                          class="fill-current h-4 w-4"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
                         >
-                          {trending ? "Remove from trend" : "Add to trend"}
-                        </button>
-                        <button
-                          className="hover:bg-slate-600 p-3 w-full text-right"
-                          onClick={() => setDeleteId(id)}
+                          <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                        </svg>
+                      </div>
+                    </div>
+
+                    <div class="relative">
+                      <select class="appearance-none h-full rounded-r border-t sm:rounded-r-none sm:border-r-0 border-r border-b block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-l focus:border-r focus:bg-white focus:border-gray-500">
+                        <option>All</option>
+                        <option>Active</option>
+                        <option>Inactive</option>
+                      </select>
+
+                      <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                        <svg
+                          class="fill-current h-4 w-4"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
                         >
-                          Delete
-                        </button>
-                        <button
-                          className="hover:bg-slate-600 p-3 w-full text-right"
-                          onClick={() => handleShowUpdate(id)}
-                        >
-                          Update
-                        </button>
+                          <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                        </svg>
                       </div>
                     </div>
                   </div>
+
+                  <div class="block relative mt-2 sm:mt-0">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-2">
+                      <svg
+                        viewBox="0 0 24 24"
+                        class="h-4 w-4 fill-current text-gray-500"
+                      >
+                        <path d="M10 4a6 6 0 100 12 6 6 0 000-12zm-8 6a8 8 0 1114.32 4.906l5.387 5.387a1 1 0 01-1.414 1.414l-5.387-5.387A8 8 0 012 10z"></path>
+                      </svg>
+                    </span>
+
+                    <input
+                      placeholder="Search"
+                      class="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none"
+                    />
+                  </div>
                 </div>
-              )
-            )}
+              </div>
+            </div>
+
+            <div class="mt-8">
+              <h4 class="text-gray-600">Wide Table</h4>
+
+              <div class="flex flex-col mt-6">
+                <div class="-my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
+                  <div class="align-middle inline-block min-w-full shadow overflow-hidden sm:rounded-lg border-b border-gray-200">
+                    <table class="min-w-full">
+                      <thead>
+                        <tr>
+                          <th class="px-6 py-3 border-b border-gray-200 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                            Name
+                          </th>
+                          <th class="px-6 py-3 border-b border-gray-200 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                            Title
+                          </th>
+                          <th class="px-6 py-3 border-b border-gray-200 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                            Status
+                          </th>
+                          <th class="px-6 py-3 border-b border-gray-200 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                            Role
+                          </th>
+                          <th class="px-6 py-3 border-b border-gray-200 bg-gray-100"></th>
+                        </tr>
+                      </thead>
+
+                      <tbody class="bg-white">
+                        <tr>
+                          <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                            <div class="flex items-center">
+                              <div class="flex-shrink-0 h-10 w-10">
+                                <img
+                                  class="h-10 w-10 rounded-full"
+                                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                                  alt=""
+                                />
+                              </div>
+
+                              <div class="ml-4">
+                                <div class="text-sm leading-5 font-medium text-gray-900">
+                                  John Doe
+                                </div>
+                                <div class="text-sm leading-5 text-gray-500">
+                                  john@example.com
+                                </div>
+                              </div>
+                            </div>
+                          </td>
+
+                          <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                            <div class="text-sm leading-5 text-gray-900">
+                              Software Engineer
+                            </div>
+                            <div class="text-sm leading-5 text-gray-500">
+                              Web dev
+                            </div>
+                          </td>
+
+                          <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                              Active
+                            </span>
+                          </td>
+
+                          <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-gray-500">
+                            Owner
+                          </td>
+
+                          <td class="px-6 py-4 whitespace-no-wrap text-right border-b border-gray-200 text-sm leading-5 font-medium">
+                            <a
+                              href="#"
+                              class="text-indigo-600 hover:text-indigo-900"
+                            >
+                              Edit
+                            </a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -464,7 +429,7 @@ const DashBoard = () => {
               Do you really want to delete
               <br />
               <span className="font-bold">
-                {movie.find((movie) => movie.id == deleteid)?.name}
+                {movies.find((movie) => movie.id == deleteid)?.name}
               </span>
             </p>
             <div className="mt-5 flex justify-between text-white">
