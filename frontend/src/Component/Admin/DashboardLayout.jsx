@@ -4,7 +4,7 @@ import DashNavbar from "./DashNavbar";
 
 const DashboardLayout = () => {
   return (
-    <div className="relative">
+    <div className="relative w-screen">
       <DashNavbar />
       <div className="pl-[300px]">
         <Outlet />

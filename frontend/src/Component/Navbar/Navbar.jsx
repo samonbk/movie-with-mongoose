@@ -74,7 +74,7 @@ const Navbar = () => {
         }`}
       >
         <ul
-          className={`absolute top-0 flex flex-col w-[260px] h-full bg-slate-900`}
+          className={`absolute top-0 flex flex-col w-[260px] h-full bg-slate-900  overflow-y-auto pb-8`}
         >
           <button className="text-2xl mt-5 px-2 w-10" onClick={onToggle}>
             <BiArrowBack />
@@ -197,15 +197,6 @@ const Navbar = () => {
               to={"/about"}
             >
               About us
-            </NavLink>
-          </li>
-          <li className="">
-            <NavLink
-              onClick={onToggle}
-              className="navlink min-w-full border-b border-opacity-50 border-zinc-500 py-3 px-2 flex hover:bg-slate-800"
-              to={"/dashboard"}
-            >
-              Dashboard
             </NavLink>
           </li>
           <li className="px-2">

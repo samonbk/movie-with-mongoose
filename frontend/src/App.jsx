@@ -24,6 +24,7 @@ import About from "./Page/About.jsx";
 import Profile from "./Page/Profile.jsx";
 import GenereHorror from "./Component/GenerePage/GenereHorror.jsx";
 import DashboardLayout from "./Component/Admin/DashboardLayout.jsx";
+import Table from "./Component/Admin/Table.jsx";
 
 function App() {
   const router = createBrowserRouter(
@@ -50,6 +51,7 @@ function App() {
         </Route>
         <Route path="/admin" element={<DashboardLayout />}>
           <Route index element={<DashBoard />} />
+          <Route path="table" element={<Table />} />
         </Route>
       </>
     )
