@@ -1,0 +1,31 @@
+#menu.show {
+  left: 0px;
+  animation: bg-transition 0.2s;
+  background: rgba(0, 0, 0, 0.8);
+}
+
+@keyframes bg-transition {
+  0% {
+    background: rgba(0, 0, 0, 0);
+  }
+  50% {
+    background: rgba(0, 0, 0, 0);
+  }
+  100% {
+    background: rgba(0, 0, 0, 0.8);
+  }
+}
+
+#menu {
+  background: rgba(0, 0, 0, 0);
+}
+
+.navlink.active {
+  border-bottom: 1px solid orange;
+}
+.genere.active {
+  border-bottom: 1px solid rgb(240, 176, 56);
+}
+
+@media screen and (max-width: 768px) {
+}

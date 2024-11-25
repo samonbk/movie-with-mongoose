@@ -1,0 +1,55 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+
+* {
+  font-family: "Montserrat", sans-serif;
+}
+
+:root {
+  --swiper-navigation-size: 14px !important;
+}
+
+body {
+  background: #020d18;
+  color: #cbd5e1;
+}
+
+.my-linear {
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0));
+}
+
+.movieLink:hover .my-linear {
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.5));
+}
+
+.inputbg {
+  background: transparent !important;
+}
+
+.error {
+  width: 100%;
+  height: 100vh;
+  background-image: url("src/assets/img/error-page.webp");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+@media screen and (max-width: 768px) {
+  html {
+    font-size: 80%;
+  }
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+  width: 28px !important;
+  height: 28px !important;
+  display: flex;
+  justify-items: center;
+  border-radius: 100%;
+  color: rgb(255, 255, 255) !important;
+  background: rgb(43, 62, 82);
+}
