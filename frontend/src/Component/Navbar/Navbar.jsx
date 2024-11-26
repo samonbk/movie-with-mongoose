@@ -119,9 +119,8 @@ const Navbar = () => {
             </NavLink>
           </li>
           <li className=" min-w-full relative">
-            <NavLink
+            <button
               className="navlink min-w-full border-b border-opacity-50 border-zinc-500 py-3 px-2 items-center flex justify-between hover:bg-slate-800"
-              to={"/genere"}
               onClick={onGenereToggle}
             >
               Genere
@@ -132,7 +131,7 @@ const Navbar = () => {
               >
                 <IoIosArrowDown />
               </span>
-            </NavLink>
+            </button>
             <ul className={` top-8 left-0 ${isGenere ? "block" : "hidden"}`}>
               <li className="">
                 <NavLink
@@ -215,13 +214,13 @@ const Navbar = () => {
             ) : (
               <div className="flex justify-between w-full">
                 <Link
-                  to={"/login"}
+                  to={"/admin/login"}
                   className="min-w-[100px] block rounded-3xl bg-slate-800 py-2 mt-4 text-center hover:bg-orange-400"
                 >
                   Log in
                 </Link>
                 <Link
-                  to={"/signup"}
+                  to={"/admin/signup"}
                   className="min-w-[100px] block rounded-3xl bg-slate-800 py-2 mt-4 text-center hover:bg-orange-400"
                 >
                   Sign up

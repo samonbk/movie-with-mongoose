@@ -3,28 +3,16 @@ import { BiSearch } from "react-icons/bi";
 import { BsStarFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { BiX } from "react-icons/bi";
+import { useMovieContext } from "../../Context";
 
 const Search = () => {
   const [items, setItems] = useState("");
-  const [movie, setMovie] = useState([]);
+  const { movies, fetchMovies } = useMovieContext();
   const [searchFiltermovie, setSearchFiltermovie] = useState([]);
 
   useEffect(() => {
-    fetch("https://samon-movieforkh-api.vercel.app")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => setMovie(data.moviedata))
-      .catch((error) =>
-        console.error(
-          "There has been a problem with your fetch operation:",
-          error
-        )
-      );
-  }, [movie]);
+    fetchMovies();
+  }, [fetchMovies]);
 
   function onSearchChange(e) {
     const searchTerm = e.target.value.toLowerCase();
@@ -36,10 +24,10 @@ const Search = () => {
     };
 
     // Filter the movies based on the normalized search term
-    const filtermovie = movie.filter((movie) => {
-      const normalizedMovieName = normalizeString(movie.name);
+    const filtermovie = movies.filter((movies) => {
+      const normalizedMovieName = normalizeString(movies.name);
 
-      // Compare normalized movie name with normalized search term
+      // Compare normalized movies name with normalized search term
       return normalizedMovieName.includes(normalizeString(searchTerm));
     });
 
@@ -48,13 +36,13 @@ const Search = () => {
 
   return (
     <>
-      <div className="flex bg-slate-700 w-full m-auto md:relative z-40 fixed top-[70px] md:top-0 left-0 md:rounded-sm h-9">
+      <div className="flex bg-slate-700 w-full m-auto md:relative z-50 fixed top-[70px] md:top-0 left-0 md:rounded-sm h-9">
         <input
           className="bg-transparent focus:outline-none p-2 w-full"
           onChange={onSearchChange}
           value={items}
           type="text"
-          placeholder="Search movie"
+          placeholder="Search movies"
         />
         <button
           onClick={() => setItems("")}
@@ -74,9 +62,9 @@ const Search = () => {
           {items ? (
             searchFiltermovie.slice(0, 3).map((m) => (
               <Link
-                to={`movie/playpage/${m.name}`}
+                to={`movies/playpage/${m.name}`}
                 onClick={() => setItems("")}
-                key={m.id}
+                key={m._id}
                 className="flex gap-4 mt-2 bg-slate-800 p-2 rounded-md text-gray-400"
               >
                 <div className="md:max-w-[80px] max-w-[60px]">

@@ -8,19 +8,20 @@ import "../Trending/Trending.css";
 import { BiPlayCircle } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import { BsStarFill } from "react-icons/bs";
-import { useGlobalContext } from "../../Context";
+import { useGlobalContext, useMovieContext } from "../../Context";
 import { FaPlay } from "react-icons/fa";
 
 const Trending = () => {
-  const { moviedata } = useGlobalContext();
+  const { movies, fetchMovies } = useMovieContext();
   const [trend, setTrend] = useState([]);
   const nextRef = useRef(null);
   const preRef = useRef(null);
 
   useEffect(() => {
-    const newtrend = moviedata.filter((movie) => movie.trending === true);
+    fetchMovies();
+    const newtrend = movies.filter((movie) => movie.trending === true);
     setTrend(newtrend);
-  }, [moviedata]);
+  }, [movies]);
 
   return (
     <div>
@@ -45,7 +46,7 @@ const Trending = () => {
         >
           {trend?.map((m) => (
             <SwiperSlide
-              key={m.id}
+              key={m._id}
               className="overflow-hidden bg-no-repeat bg-cover bg-top z-10"
               style={{ backgroundImage: `url(${m.cover})` }}
             >
@@ -95,13 +96,14 @@ const Trending = () => {
 };
 
 export const TrendingRight = () => {
-  const { moviedata } = useGlobalContext();
+  const { movies, fetchMovies } = useMovieContext();
   const [trend, setTrend] = useState([]);
 
   useEffect(() => {
-    const newtrend = moviedata.filter((movie) => movie.trending === true);
+    fetchMovies();
+    const newtrend = movies.filter((movie) => movie.trending === true);
     setTrend(newtrend);
-  }, [moviedata]);
+  }, [movies]);
 
   return (
     <>
@@ -109,7 +111,7 @@ export const TrendingRight = () => {
         {trend.slice(0, 3).map((tm) => (
           <Link
             to={`/movie/playpage/${tm.name}`}
-            key={tm.id}
+            key={tm._id}
             className="grid grid-cols-12 gap-4 bg-slate-900"
           >
             <div className="col-span-3 md:max-h-44 max-h-52 overflow-y-hidden">

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { BsStarFill, BsPlayCircle } from "react-icons/bs";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useGlobalContext } from "../Context";
+import { useMovieContext } from "../Context";
 
 const TvShow = () => {
-  const { moviedata } = useGlobalContext();
+  const { movies, fetchMovies } = useMovieContext();
   const [typemovie, setTypemovie] = useState([]);
   const navigate = useNavigate();
   const [slicemovie, setSlicemovie] = useState([]); // Initialize with the first 10 movies
@@ -43,9 +43,10 @@ const TvShow = () => {
   }
 
   useEffect(() => {
-    const movie = moviedata.filter((mv) => mv.type.includes("tv-show"));
+    fetchMovies();
+    const movie = movies.filter((mv) => mv.type.includes("tv-show"));
     setTypemovie(movie);
-  }, [moviedata]);
+  }, [movies]);
 
   useEffect(() => {
     if (typemovie && typemovie.length > 0) {
@@ -56,9 +57,8 @@ const TvShow = () => {
         result.push(chunk);
       }
       setSlicemovie(result);
-      // console.log(slicemovie.length);
 
-      const parsedPage = parseInt(pageId, 10); // Ensure pageId is an integer
+      const parsedPage = parseInt(pageId, 10);
       if (
         !isNaN(parsedPage) &&
         parsedPage <= result.length &&
@@ -114,7 +114,7 @@ const TvShow = () => {
         <section className="grid md:grid-cols-1 grid-cols-2 gap-3 mt-3">
           {slicemovie[page] ? (
             slicemovie[page].map((m) => (
-              <div key={m.id}>
+              <div key={m._id}>
                 <Link
                   to={`/tv-show/playpage/${m.name}`}
                   className="rounded-xl overflow-hidden md:grid grid-cols-12 w-full gap-4 bg-[#0e1824] md:items-center flex flex-col justify-between"

@@ -1,7 +1,7 @@
 import React from "react";
 import { BiArrowBack } from "react-icons/bi";
 import { Link, useNavigate } from "react-router-dom";
-import { useGlobalContext } from "../Context";
+import { useGlobalContext } from "../../Context";
 
 const Profile = () => {
   const navigate = useNavigate();

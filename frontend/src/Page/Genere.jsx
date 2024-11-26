@@ -1,12 +1,8 @@
 import { useEffect, useState } from "react";
-import { BiSearch } from "react-icons/bi";
 import { IoCaretDownOutline } from "react-icons/io5";
 import { Link, NavLink, Outlet } from "react-router-dom";
-import { useGlobalContext } from "../Context";
-import { FiLoader } from "react-icons/fi";
 
 const Genere = () => {
-  const { isloading } = useGlobalContext();
   const [listToggle, seListToggle] = useState(false);
 
   function onListToggle() {

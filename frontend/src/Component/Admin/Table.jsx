@@ -1,16 +1,26 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useMovieContext } from "../../Context";
 import { BsStarFill } from "react-icons/bs";
+import { Link } from "react-router-dom";
 
 const Table = () => {
-  const { movies, fetchMovies } = useMovieContext();
+  const { movies, fetchMovies, deleteMovie, success } = useMovieContext();
+  const [deleteid, setDeleteId] = useState(null);
   useEffect(() => {
     fetchMovies();
   }, [fetchMovies]);
+
+  const handleDelete = (_id) => {
+    deleteMovie(_id);
+    if (success) {
+    }
+    setDeleteId();
+  };
+
   return (
     <div className="max-w-[1570px]">
       <div className="mt-4 w-full">
-        <h3 className="text-gray-700 text-3xl font-medium">Tables</h3>
+        <h3 className="text-gray-500 text-3xl font-medium">Tables</h3>
 
         <div className="mt-8">
           <div className="mt-6">
@@ -95,6 +105,12 @@ const Table = () => {
                         Cover
                       </th>
                       <th className="px-6 py-3 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                        Runtime
+                      </th>
+                      <th className="px-6 py-3 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                        Release Year
+                      </th>
+                      <th className="px-6 py-3 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                         Trending
                       </th>
                       <th className="px-6 py-3 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider"></th>
@@ -150,10 +166,8 @@ const Table = () => {
                             </div>
                           </td>
 
-                          <td className="px-6 whitespace-no-wrap">
-                            <span className="px-2 inline-flex text-xs font-semibold text-gray-500">
-                              {genere}
-                            </span>
+                          <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+                            {genere}
                           </td>
 
                           <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
@@ -165,22 +179,28 @@ const Table = () => {
                             </div>
                           </td>
                           <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+                            <div className="w-14 h-8 ">{runtime}mn</div>
+                          </td>
+                          <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+                            <div className="w-14 h-8 ">{release}</div>
+                          </td>
+                          <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
                             {trending ? "Yes" : "No"}
                           </td>
 
                           <td className="px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium space-x-3">
-                            <a
-                              href="#"
+                            <Link
+                              to={`/admin/update_movie/${_id}`}
                               className="text-indigo-600 hover:text-indigo-900"
                             >
                               Edit
-                            </a>
-                            <a
-                              href="#"
+                            </Link>
+                            <button
+                              onClick={() => setDeleteId(_id)}
                               className="text-red-600 hover:text-indigo-900"
                             >
                               Delete
-                            </a>
+                            </button>
                           </td>
                         </tr>
                       )
@@ -192,6 +212,35 @@ const Table = () => {
           </div>
         </div>
       </div>
+      <section
+        className={`w-full h-screen fixed top-0 left-0 ${
+          deleteid ? "block" : "hidden"
+        }`}
+      >
+        <div className="bg-slate-500 rounded-2xl p-10 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[370px]">
+          <p className="text-center text-white">
+            Do you really want to delete
+            <br />
+            <span className="font-bold">
+              {movies.find((movie) => movie._id == deleteid)?.name}
+            </span>
+          </p>
+          <div className="mt-5 flex justify-between text-white">
+            <button
+              className="bg-yellow-400 px-3 py-1 rounded-lg"
+              onClick={() => setDeleteId()}
+            >
+              Cancel
+            </button>
+            <button
+              onClick={() => handleDelete(deleteid)}
+              className=" bg-red-600 px-3 py-1 rounded-lg"
+            >
+              yes
+            </button>
+          </div>
+        </div>
+      </section>
     </div>
   );
 };

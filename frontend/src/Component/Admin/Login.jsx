@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { FaEyeSlash } from "react-icons/fa";
 import { IoArrowBackSharp, IoEyeSharp } from "react-icons/io5";
 import { Link, useNavigate } from "react-router-dom";
-import { useGlobalContext } from "../Context";
+import { useGlobalContext } from "../../Context";
 
 const Login = () => {
-  const { user, logged, account, signOut, setnewuser } = useGlobalContext();
+  const { logged, accounts, setnewuser } = useGlobalContext();
   let navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -16,9 +16,10 @@ const Login = () => {
     setSubmitted(false);
   }, [logged]);
 
-  function onSubmit() {
+  function onSubmit(e) {
+    e.preventDefault();
     setSubmitted(true);
-    const userAccount = account.find(
+    const userAccount = accounts.find(
       (acc) => acc.username === username && acc.password === password
     );
     if (userAccount) {
@@ -88,7 +89,7 @@ const Login = () => {
           >
             Log in
           </button>
-          <Link to={"/signup"} className="font-bold mt-6 block">
+          <Link to={"/admin/signup"} className="font-bold mt-6 block">
             Create
           </Link>
         </form>

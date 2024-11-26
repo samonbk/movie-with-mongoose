@@ -16,15 +16,17 @@ import GenereCartoon from "./Component/GenerePage/GenereCartoon.jsx";
 import GenereAction from "./Component/GenerePage/GenereAction.jsx";
 import GenereRomance from "./Component/GenerePage/GenereRomance.jsx";
 import DashBoard from "./Component/Admin/DashBoard.jsx";
-import Login from "./Page/Login.jsx";
-import Signup from "./Page/Signup.jsx";
+import Login from "./Component/Admin/Login.jsx";
+import Signup from "./Component/Admin/Signup.jsx";
 import Layout from "./Layout/Layout.jsx";
 import Error from "./Component/Error/Error.jsx";
 import About from "./Page/About.jsx";
-import Profile from "./Page/Profile.jsx";
+import Profile from "./Component/Admin/Profile.jsx";
 import GenereHorror from "./Component/GenerePage/GenereHorror.jsx";
 import DashboardLayout from "./Component/Admin/DashboardLayout.jsx";
 import Table from "./Component/Admin/Table.jsx";
+import AddMovie from "./Component/Admin/AddMovie.jsx";
+import UpdateMovie from "./Component/Admin/UpdateMovie.jsx";
 
 function App() {
   const router = createBrowserRouter(
@@ -36,10 +38,7 @@ function App() {
           <Route path="/movie/playpage/:name" element={<MoviePlay />} />
           <Route path="/tv-show/playpage/:name" element={<MoviePlay />} />
           <Route path="/tv-show/page/:pageId" element={<TvShow />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
           <Route path="/about" element={<About />} />
-          <Route path="/profile" element={<Profile />} />
           <Route path="/genere" element={<Genere />}>
             <Route index element={<GenereAll />} />
             <Route path="sci-fi" element={<GenereScifi />} />
@@ -52,6 +51,11 @@ function App() {
         <Route path="/admin" element={<DashboardLayout />}>
           <Route index element={<DashBoard />} />
           <Route path="table" element={<Table />} />
+          <Route path="add_movie" element={<AddMovie />} />
+          <Route path="update_movie/:id" element={<UpdateMovie />} />
+          <Route path="login" element={<Login />} />
+          <Route path="signup" element={<Signup />} />
+          <Route path="profile" element={<Profile />} />
         </Route>
       </>
     )

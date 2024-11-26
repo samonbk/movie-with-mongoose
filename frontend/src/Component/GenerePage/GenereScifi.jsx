@@ -1,13 +1,13 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import MovieCard from "../Card/MovieCard";
-import { FiLoader } from "react-icons/fi";
-import { useGlobalContext } from "../../Context";
+import { useMovieContext } from "../../Context";
 
 const GenereScifi = () => {
   const [sizex, setSizex] = useState(300);
-  const { moviedata } = useGlobalContext();
+  const { movies, fetchMovies } = useMovieContext();
 
   useEffect(() => {
+    fetchMovies();
     setInterval(() => {
       const wx = window.innerWidth;
       if (wx > 768) {
@@ -16,9 +16,9 @@ const GenereScifi = () => {
         setSizex(340);
       }
     }, 200);
-  }, []);
+  }, [fetchMovies]);
 
-  const scifiFilter = moviedata.filter((movie) =>
+  const scifiFilter = movies.filter((movie) =>
     movie.genere.toLowerCase().includes("sci-fi")
   );
 
@@ -28,10 +28,10 @@ const GenereScifi = () => {
         <h1 className="text-xl px-4 border-l-4">Sci-fi</h1>
         <div className="grid lg:grid-cols-5 md:grid-cols-4 grid-cols-2 gap-3 mt-4">
           {scifiFilter?.slice(0, 10).map((m) => (
-            <div key={m.id} className="rounded-lg">
+            <div key={m._id} className="rounded-lg">
               <MovieCard
                 hight={sizex}
-                id={m.id}
+                id={m._id}
                 img={m.img}
                 name={m.name}
                 rate={m.rate}

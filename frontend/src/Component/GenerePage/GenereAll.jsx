@@ -4,8 +4,7 @@ import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import { BsArrowRight } from "react-icons/bs";
 import MovieCard from "../Card/MovieCard";
 import { Link } from "react-router-dom";
-import { FiLoader } from "react-icons/fi";
-import { useGlobalContext } from "../../Context";
+import { useMovieContext } from "../../Context";
 
 const GenereAll = () => {
   const [scifiFilter, setScifiFilter] = useState();
@@ -14,9 +13,10 @@ const GenereAll = () => {
   const [actionFilter, setActionFilter] = useState();
   const [horrorFilter, setHorrorFilter] = useState();
   const [sizex, setSizex] = useState();
-  const { moviedata } = useGlobalContext();
+  const { movies, fetchMovies } = useMovieContext();
 
   useEffect(() => {
+    fetchMovies();
     setInterval(() => {
       const wx = window.innerWidth;
       if (wx > 768) {
@@ -25,22 +25,22 @@ const GenereAll = () => {
         setSizex(300);
       }
     }, 200);
-  }, []);
+  }, [fetchMovies]);
 
   useEffect(() => {
-    const scifiFi = moviedata.filter((cartoon) =>
+    const scifiFi = movies.filter((cartoon) =>
       cartoon.genere.toLowerCase().includes("sci-fi")
     );
-    const cartoon = moviedata.filter((cartoon) =>
+    const cartoon = movies.filter((cartoon) =>
       cartoon.genere.toLowerCase().includes("cartoon")
     );
-    const romance = moviedata.filter((movie) =>
+    const romance = movies.filter((movie) =>
       movie.genere.toLowerCase().includes("romance")
     );
-    const action = moviedata.filter((movie) =>
+    const action = movies.filter((movie) =>
       movie.genere.toLowerCase().includes("action")
     );
-    const horror = moviedata.filter((movie) =>
+    const horror = movies.filter((movie) =>
       movie.genere.toLowerCase().includes("horror")
     );
     setScifiFilter(scifiFi);
@@ -48,7 +48,7 @@ const GenereAll = () => {
     setRomanceFilter(romance);
     setActionFilter(action);
     setHorrorFilter(horror);
-  }, [moviedata]);
+  }, [movies]);
 
   const nextRef = useRef(null);
   const preRef = useRef(null);
@@ -90,11 +90,11 @@ const GenereAll = () => {
           className="mySwiper w-full"
         >
           {scifiFilter?.slice(0, 10).map((m) => (
-            <SwiperSlide key={m.id} className="rounded-lg ">
+            <SwiperSlide key={m._id} className="rounded-lg ">
               <div className="h-full">
                 <MovieCard
                   hight={sizex}
-                  id={m.id}
+                  id={m._id}
                   img={m.img}
                   name={m.name}
                   rate={m.rate}
@@ -159,10 +159,10 @@ const GenereAll = () => {
           className="mySwiper"
         >
           {cartoonFilter?.slice(0, 10).map((m) => (
-            <SwiperSlide key={m.id} className="rounded-lg overflow-hidden">
+            <SwiperSlide key={m._id} className="rounded-lg overflow-hidden">
               <MovieCard
                 hight={sizex}
-                id={m.id}
+                id={m._id}
                 img={m.img}
                 name={m.name}
                 rate={m.rate}
@@ -221,10 +221,10 @@ const GenereAll = () => {
           className="mySwiper"
         >
           {romanceFilter?.slice(0, 10).map((m) => (
-            <SwiperSlide key={m.id} className="rounded-lg overflow-hidden">
+            <SwiperSlide key={m._id} className="rounded-lg overflow-hidden">
               <MovieCard
                 hight={sizex}
-                id={m.id}
+                id={m._id}
                 img={m.img}
                 name={m.name}
                 rate={m.rate}
@@ -283,10 +283,10 @@ const GenereAll = () => {
           className="mySwiper"
         >
           {actionFilter?.slice(0, 10).map((m) => (
-            <SwiperSlide key={m.id} className="rounded-lg overflow-hidden">
+            <SwiperSlide key={m._id} className="rounded-lg overflow-hidden">
               <MovieCard
                 hight={sizex}
-                id={m.id}
+                id={m._id}
                 img={m.img}
                 name={m.name}
                 rate={m.rate}
@@ -345,10 +345,10 @@ const GenereAll = () => {
           className="mySwiper"
         >
           {horrorFilter?.slice(0, 10).map((m) => (
-            <SwiperSlide key={m.id} className="rounded-lg overflow-hidden">
+            <SwiperSlide key={m._id} className="rounded-lg overflow-hidden">
               <MovieCard
                 hight={sizex}
-                id={m.id}
+                id={m._id}
                 img={m.img}
                 name={m.name}
                 rate={m.rate}

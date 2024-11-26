@@ -4,8 +4,7 @@ import { FaPlay } from "react-icons/fa";
 import { MdHeight } from "react-icons/md";
 import { Link } from "react-router-dom";
 
-function MovieCard(props) {
-  const { img, name, rate, release, hight } = props;
+function MovieCard({ img, name, rate, release, hight }) {
   return (
     <>
       <Link
@@ -19,9 +18,6 @@ function MovieCard(props) {
           backgroundRepeat: "no-repeat",
         }}
       >
-        <div className="h-full w-full overflow-hidden">
-          {/* <img className="w-full" src={img} alt={name} /> */}
-        </div>
         <div className="my-linear absolute w-full h-full top-0 left-0 flex flex-col justify-end p-3 text-sm">
           <span className="mt-2 block font-bold text-lg leading-5">{name}</span>
           <span className="mt-1 flex items-center text-white gap-1">

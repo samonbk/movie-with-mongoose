@@ -15,7 +15,7 @@ const DashNavbar = () => {
               className="py-3 border-b border-t min-w-full block mt-8"
               to={"/admin"}
             >
-              movie list
+              Dashboard
             </Link>
           </li>
           <li className=" w-full">
@@ -24,7 +24,7 @@ const DashNavbar = () => {
             </Link>
           </li>
           <li className=" w-full">
-            <Link className="py-3 border-b min-w-full block" to={"/admin"}>
+            <Link className="py-3 border-b min-w-full block" to={"add_movie"}>
               add movie
             </Link>
           </li>

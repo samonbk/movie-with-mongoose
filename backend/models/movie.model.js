@@ -20,10 +20,11 @@ const movieSchema = new mongoose.Schema(
     },
     genere: {
       type: String,
+      default: "action",
       required: true,
     },
     runtime: {
-      type: String,
+      type: Number,
       required: true,
     },
     type: {

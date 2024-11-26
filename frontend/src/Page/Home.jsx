@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Trending, { TrendingRight } from "../Component/Trending/Trending";
 import MovieCard from "../Component/Card/MovieCard";
 import { MdKeyboardDoubleArrowRight, MdLiveTv } from "react-icons/md";
-import { useGlobalContext } from "../Context";
+import { useMovieContext } from "../Context";
 import { BsPlayCircle } from "react-icons/bs";
 
 const Home = () => {
@@ -10,7 +10,7 @@ const Home = () => {
   const [slice, setSlice] = useState(24);
   const [type, setType] = useState("");
   const [sizex, setSizex] = useState(300);
-  const { moviedata } = useGlobalContext();
+  const { movies, fetchMovies } = useMovieContext();
 
   useEffect(() => {
     setInterval(() => {
@@ -24,14 +24,15 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    const sortedArray = moviedata.sort((a, b) => b.id - a.id);
+    fetchMovies();
+    const sortedArray = movies.sort((a, b) => b.id - a.id);
     setLastestmovie(sortedArray);
     if (type) {
-      const newtype = moviedata.filter((movie) => movie.type === type);
+      const newtype = movies.filter((movie) => movie.type === type);
       setLastestmovie(newtype);
     }
     document.title = "Moviesforkh - free movie streaming site online";
-  }, [moviedata]);
+  }, [movies]);
 
   function onAllmovie() {
     setType("");
@@ -97,8 +98,8 @@ const Home = () => {
         <div className="mt-4 grid md:grid-cols-4 lg:grid-cols-6 grid-cols-2 gap-2">
           {lastesmovie
             .slice(0, slice)
-            .map(({ id, name, rate, release, img }) => (
-              <div key={id}>
+            .map(({ _id, name, rate, release, img }) => (
+              <div key={_id}>
                 <MovieCard
                   hight={sizex}
                   name={name}

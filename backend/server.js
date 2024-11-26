@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import { connectDB } from "./config/db.js";
 import movieRoute from "./route/movie.route.js";
+import userRoute from "./route/user.route.js";
 
 dotenv.config();
 
@@ -16,6 +17,7 @@ app.use(cors(corsOptions));
 app.use(express.json());
 
 app.use("/api/movies", movieRoute);
+app.use("/api/users", userRoute);
 
 app.use((err, req, res, next) => {
   console.error(err.stack);

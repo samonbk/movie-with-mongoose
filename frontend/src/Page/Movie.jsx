@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { BsStarFill, BsPlay, BsPlayCircle } from "react-icons/bs";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useGlobalContext } from "../Context";
+import { useMovieContext } from "../Context";
 const Movie = () => {
-  const { moviedata } = useGlobalContext();
+  const { movies, fetchMovies } = useMovieContext();
   const [typemovie, setTypemovie] = useState([]);
   const navigate = useNavigate();
   const [slicemovie, setSlicemovie] = useState([]); // Initialize with the first 10 movies
@@ -27,9 +27,10 @@ const Movie = () => {
   }
 
   useEffect(() => {
-    const movie = moviedata.filter((movie) => movie.type === "movie");
+    fetchMovies();
+    const movie = movies.filter((movie) => movie.type === "movie");
     setTypemovie(movie);
-  }, [moviedata]);
+  }, [movies]);
 
   function onPrevousButton() {
     if (parseInt(pageId) > 1) {
@@ -112,7 +113,7 @@ const Movie = () => {
         <section className="grid md:grid-cols-1 grid-cols-2 gap-3 mt-3">
           {slicemovie[page] ? (
             slicemovie[page].map((m) => (
-              <div key={m.id}>
+              <div key={m._id}>
                 <Link
                   to={`/movie/playpage/${m.name}`}
                   className="rounded-xl overflow-hidden md:grid grid-cols-12 w-full gap-4 bg-[#0e1824] md:items-center flex flex-col justify-between"
@@ -136,7 +137,7 @@ const Movie = () => {
                       </h2>
                       <h2>
                         Run Time:{" "}
-                        <span className=" text-gray-100"> {m.runtime}</span>
+                        <span className=" text-gray-100"> {m.runtime}mn</span>
                       </h2>
                       <h2 className="flex items-center gap-2">
                         Rate:

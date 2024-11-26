@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useGlobalContext } from "../Context";
+import { useGlobalContext } from "../../Context";
 import axios from "axios";
 import { IoArrowBackSharp, IoEyeSharp } from "react-icons/io5";
 

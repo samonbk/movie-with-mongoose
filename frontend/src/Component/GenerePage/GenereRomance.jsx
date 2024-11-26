@@ -4,9 +4,10 @@ import { useGlobalContext } from "../../Context";
 
 const GenereRomance = () => {
   const [sizex, setSizex] = useState(300);
-  const { moviedata } = useGlobalContext();
+  const { movies, fetchMovies } = useGlobalContext();
 
   useEffect(() => {
+    fetchMovies();
     setInterval(() => {
       const wx = window.innerWidth;
       if (wx > 768) {
@@ -15,9 +16,9 @@ const GenereRomance = () => {
         setSizex(340);
       }
     }, 200);
-  }, []);
+  }, [fetchMovies]);
 
-  const romanceFilter = moviedata.filter((movie) =>
+  const romanceFilter = movies.filter((movie) =>
     movie.genere.toLowerCase().includes("romance")
   );
 
@@ -27,10 +28,10 @@ const GenereRomance = () => {
         <h1 className="text-xl px-4 border-l-4">Romance</h1>
         <div className="grid lg:grid-cols-5 md:grid-cols-4 grid-cols-2 gap-3 mt-4">
           {romanceFilter?.slice(0, 12).map((m) => (
-            <div key={m.id} className="rounded-lg">
+            <div key={m._id} className="rounded-lg">
               <MovieCard
                 hight={sizex}
-                id={m.id}
+                id={m._id}
                 img={m.img}
                 name={m.name}
                 rate={m.rate}
