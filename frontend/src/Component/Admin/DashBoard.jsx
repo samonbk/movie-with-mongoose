@@ -22,7 +22,7 @@ const DashBoard = () => {
     if (!logged) {
       navigate("/admin/login");
     }
-  }, [location]);
+  }, [location, logged]);
 
   useEffect(() => {
     const fetchData = async () => {
