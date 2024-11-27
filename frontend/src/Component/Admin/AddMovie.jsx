@@ -35,15 +35,16 @@ const AddMovie = () => {
     });
   };
 
-  const handleAddMovie = (e) => {
+  const handleAddMovie = async (e) => {
     e.preventDefault();
-    createMovie(newMovie);
     setSubwarning(true);
-    if (success) {
+    const result = await createMovie(newMovie);
+
+    if (result.success) {
       onCancel();
-      alert(message);
+      alert(result.message);
     } else {
-      alert(message);
+      alert(result.message);
     }
   };
 
@@ -171,8 +172,8 @@ const AddMovie = () => {
               <option className="text-black" value="action">
                 action
               </option>
-              <option className="text-black" value="cartton">
-                cartton
+              <option className="text-black" value="cartoon">
+                cartoon
               </option>
               <option className="text-black" value="romance">
                 romance

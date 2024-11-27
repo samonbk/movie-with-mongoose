@@ -48,14 +48,14 @@ const UpdateMovie = () => {
     }
   }, [fetchMovies]);
 
-  const handleUpdateMovie = (e) => {
+  const handleUpdateMovie = async (e) => {
     e.preventDefault();
-    updateMovie(updatedMovie);
+    const result = await updateMovie(updatedMovie);
     setSubwarning(true);
-    if (success) {
-      alert(message);
+    if (result.success) {
+      alert(result.message);
     } else {
-      alert(message);
+      alert(result.message);
     }
   };
 
@@ -185,8 +185,8 @@ const UpdateMovie = () => {
               <option className="text-black" value="action">
                 action
               </option>
-              <option className="text-black" value="cartton">
-                cartton
+              <option className="text-black" value="cartoon">
+                cartoon
               </option>
               <option className="text-black" value="romance">
                 romance
@@ -241,6 +241,44 @@ const UpdateMovie = () => {
               </div>
             </div>
           </div>
+          <div className="grid grid-cols-12 mt-3">
+            <label className="col-span-1" htmlFor="rate">
+              Trending
+            </label>
+            <div className="col-span-11 flex gap-5">
+              <div className="flex items-center gap-2">
+                <input
+                  type="radio"
+                  checked={updatedMovie.trending === true ? true : false}
+                  className="rounded-full px-2 py-1 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600"
+                  name="trending"
+                  onChange={(e) =>
+                    setUpdatedMovie({
+                      ...updatedMovie,
+                      trending: true, // Convert to boolean
+                    })
+                  }
+                />
+                <label htmlFor="trending">Trending</label>
+              </div>
+              <div className="flex items-center gap-2">
+                <input
+                  type="radio"
+                  checked={updatedMovie.trending === false ? true : false}
+                  className="rounded-full px-2 py-1 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600"
+                  name="trending"
+                  onChange={(e) =>
+                    setUpdatedMovie({
+                      ...updatedMovie,
+                      trending: false,
+                    })
+                  }
+                />
+                <label htmlFor="trending">Not Trending</label>
+              </div>
+            </div>
+          </div>
+
           <div className="grid grid-cols-12 mt-3">
             <label className="col-span-1 " htmlFor="release">
               Release year

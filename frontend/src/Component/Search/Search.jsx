@@ -18,16 +18,13 @@ const Search = () => {
     const searchTerm = e.target.value.toLowerCase();
     setItems(searchTerm);
 
-    // Normalize a string by removing all non-alphanumeric characters
     const normalizeString = (str) => {
       return str.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
     };
 
-    // Filter the movies based on the normalized search term
     const filtermovie = movies.filter((movies) => {
       const normalizedMovieName = normalizeString(movies.name);
 
-      // Compare normalized movies name with normalized search term
       return normalizedMovieName.includes(normalizeString(searchTerm));
     });
 
@@ -36,9 +33,9 @@ const Search = () => {
 
   return (
     <>
-      <div className="flex bg-slate-700 w-full m-auto md:relative z-50 fixed top-[70px] md:top-0 left-0 md:rounded-sm h-9">
+      <div className="flex bg-slate-700 min-w-full mx-auto md:relative z-50 fixed top-[70px] md:top-0 left-0 md:rounded-sm h-9">
         <input
-          className="bg-transparent focus:outline-none p-2 w-full"
+          className="bg-transparent focus:outline-none w-full p-2"
           onChange={onSearchChange}
           value={items}
           type="text"

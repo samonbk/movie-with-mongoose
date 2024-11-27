@@ -43,16 +43,16 @@ const Navbar = () => {
             />
           </Link>
         </div>
-        <div className="gap-6 flex items-center text-sm font-bold">
-          <div className={`md:flex w-full ${showsearch ? "block" : "hidden"}`}>
-            <Search />
-            <div
-              className="md:hidden flex text-2xl items-center"
-              onClick={() => setShowsearch(!showsearch)}
-            >
-              <BiSearch />
-            </div>
+        <div className="gap-6 flex items-center text-sm font-bold justify-end">
+          <div
+            className="md:hidden flex text-2xl items-center"
+            onClick={() => setShowsearch(!showsearch)}
+          >
+            <BiSearch />
           </div>
+        </div>
+        <div className={`md:flex w-full ${showsearch ? "block" : "hidden"}`}>
+          <Search />
         </div>
       </nav>
       {/* Menu  */}

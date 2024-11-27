@@ -21,7 +21,7 @@ const Trending = () => {
     fetchMovies();
     const newtrend = movies.filter((movie) => movie.trending === true);
     setTrend(newtrend);
-  }, [movies]);
+  }, [fetchMovies]);
 
   return (
     <div>
