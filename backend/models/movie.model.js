@@ -40,10 +40,12 @@ const movieSchema = new mongoose.Schema(
       default: false,
       required: false,
     },
-    source: {
-      type: String,
-      required: true,
-    },
+    source: [
+      {
+        type: String,
+        required: true,
+      },
+    ],
     detail: {
       type: String,
       required: true,

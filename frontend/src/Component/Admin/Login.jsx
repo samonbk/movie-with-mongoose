@@ -3,6 +3,7 @@ import { FaEyeSlash } from "react-icons/fa";
 import { IoArrowBackSharp, IoEyeSharp } from "react-icons/io5";
 import { Link, useNavigate } from "react-router-dom";
 import { useGlobalContext } from "../../Context";
+import bcrypt from "bcryptjs";
 
 const Login = () => {
   const { logged, accounts, setnewuser } = useGlobalContext();
@@ -16,16 +17,25 @@ const Login = () => {
     setSubmitted(false);
   }, [logged]);
 
-  function onSubmit(e) {
+  async function onSubmit(e) {
     e.preventDefault();
     setSubmitted(true);
-    const userAccount = accounts.find(
-      (acc) => acc.username === username && acc.password === password
-    );
+
+    const userAccount = accounts.find((acc) => acc.username === username);
+
     if (userAccount) {
-      setnewuser(userAccount);
-      localStorage.setItem("movieforkhusernamekey", userAccount.username);
+      const isMatch = await bcrypt.compare(password, userAccount.password);
+
+      if (isMatch) {
+        // Successful login
+        setnewuser({ ...userAccount });
+        localStorage.setItem("movieforkhusernamekey", userAccount.username);
+      } else {
+        // Password doesn't match
+        console.log("Invalid username or password");
+      }
     } else {
+      // Username not found
       console.log("Invalid username or password");
     }
   }
@@ -37,7 +47,7 @@ const Login = () => {
   }, [logged]);
 
   function onBlack() {
-    navigate("/");
+    navigate("/admin");
   }
 
   function onEyesToggle() {

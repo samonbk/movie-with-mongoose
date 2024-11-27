@@ -14,13 +14,7 @@ export const getUser = async (req, res) => {
 export const createUser = async (req, res) => {
   const user = req.body;
 
-  if (
-    !user.username ||
-    !user.password ||
-    !user.img ||
-    !user.phone ||
-    !user.dob
-  ) {
+  if (!user.username || !user.password) {
     return res
       .status(400)
       .json({ success: false, message: "Please provide all fields" });

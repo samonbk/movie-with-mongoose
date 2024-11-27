@@ -1,9 +1,11 @@
 import React from "react";
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import DashNavbar from "./DashNavbar";
 import { BiMenu } from "react-icons/bi";
+import { useGlobalContext } from "../../Context";
 
 const DashboardLayout = () => {
+  const { user, logged, signOut } = useGlobalContext();
   return (
     <div className="relative w-screen">
       <DashNavbar />
@@ -15,8 +17,22 @@ const DashboardLayout = () => {
             </div>
             <h1 className="text-2xl">Admin</h1>
           </div>
-          <div>
-            <img src="" alt="profile" className="w-12 h-12 rounded-full" />
+          <div className="flex items-center gap-4">
+            <img
+              src={user.img}
+              alt="profile"
+              className="w-12 h-12 rounded-full"
+            />
+            {logged ? (
+              <Link to="profile">@{user.username}</Link>
+            ) : (
+              <Link
+                to={"login"}
+                className="bg-slate-600 rounded-3xl py-1 px-4 min-w-24 flex justify-center border items-center w-24 h-9"
+              >
+                Log In
+              </Link>
+            )}
           </div>
         </div>
         <Outlet />

@@ -14,7 +14,6 @@ import { MdLiveTv } from "react-icons/md";
 const Navbar = () => {
   const [toggle, setToggle] = useState(false);
   const [isGenere, setIsGenere] = useState(false);
-  const { user, logged, sigIn, signOut } = useGlobalContext();
   const [showsearch, setShowsearch] = useState(true);
 
   function onToggle() {
@@ -44,26 +43,16 @@ const Navbar = () => {
             />
           </Link>
         </div>
-        <div className={`md:flex w-full ${showsearch ? "block" : "hidden"}`}>
-          <Search />
-        </div>
         <div className="gap-6 flex items-center text-sm font-bold">
-          <div
-            className="md:hidden flex text-2xl items-center"
-            onClick={() => setShowsearch(!showsearch)}
-          >
-            <BiSearch />
-          </div>
-          {logged ? (
-            <Link to="profile">@{user.username}</Link>
-          ) : (
-            <Link
-              to={"/login"}
-              className="bg-slate-600 rounded-3xl py-1 px-4 min-w-24 flex justify-center items-center w-24 h-9"
+          <div className={`md:flex w-full ${showsearch ? "block" : "hidden"}`}>
+            <Search />
+            <div
+              className="md:hidden flex text-2xl items-center"
+              onClick={() => setShowsearch(!showsearch)}
             >
-              Log In
-            </Link>
-          )}
+              <BiSearch />
+            </div>
+          </div>
         </div>
       </nav>
       {/* Menu  */}
@@ -197,36 +186,6 @@ const Navbar = () => {
             >
               About us
             </NavLink>
-          </li>
-          <li className="px-2">
-            {logged ? (
-              <div className="flex justify-between min-w-full">
-                <span className="min-w-[100px] block rounded-3xl bg-slate-800 py-2 mt-4 text-center hover:bg-orange-400">
-                  @{user.username}
-                </span>
-                <span
-                  className="min-w-[100px] block rounded-3xl bg-red-500 py-2 mt-4 text-center hover:bg-orange-400"
-                  onClick={signOut}
-                >
-                  Sign Out
-                </span>
-              </div>
-            ) : (
-              <div className="flex justify-between w-full">
-                <Link
-                  to={"/admin/login"}
-                  className="min-w-[100px] block rounded-3xl bg-slate-800 py-2 mt-4 text-center hover:bg-orange-400"
-                >
-                  Log in
-                </Link>
-                <Link
-                  to={"/admin/signup"}
-                  className="min-w-[100px] block rounded-3xl bg-slate-800 py-2 mt-4 text-center hover:bg-orange-400"
-                >
-                  Sign up
-                </Link>
-              </div>
-            )}
           </li>
         </ul>
         <div className="w-full h-full" onClick={() => setToggle(false)}></div>

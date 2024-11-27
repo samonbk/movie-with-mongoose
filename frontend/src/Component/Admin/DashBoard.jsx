@@ -6,6 +6,9 @@ const DashBoard = () => {
   const { user, logged } = useGlobalContext();
   const location = useLocation();
   const navigate = useNavigate();
+  const { movies, fetchMovies } = useMovieContext();
+
+  // console.log(user);
 
   const [typemovie, setTypemovie] = useState(0);
   const [typetvshow, setTypetvshow] = useState(0);
@@ -16,42 +19,50 @@ const DashBoard = () => {
   const [generehorror, setGenerehorror] = useState(0);
 
   useEffect(() => {
-    if (!user || !logged) {
+    if (!logged) {
       navigate("/admin/login");
     }
-  }, [location, logged]);
-
-  const { movies, fetchMovies } = useMovieContext();
+  }, [location]);
 
   useEffect(() => {
-    fetchMovies();
-  }, [fetchMovies]);
+    const fetchData = async () => {
+      await fetchMovies();
+      if (movies) {
+        const typetv = movies.filter(
+          (movie) => movie.type === "tv-show"
+        ).length;
+        const typem = movies.filter((movie) => movie.type === "movie").length;
+        setTypemovie(typem);
+        setTypetvshow(typetv);
 
-  useEffect(() => {
-    const typetv = movies.filter((movie) => movie.type === "tv-show").length;
-    const typem = movies.filter((movie) => movie.type === "movie").length;
-    setTypemovie(typem);
-    setTypetvshow(typetv);
-    const scifi = movies.filter((movie) =>
-      movie.genere.toLowerCase().includes("sci-fi")
-    ).length;
-    setGenerescifi(scifi);
-    const cartoon = movies.filter((movie) =>
-      movie.genere.toLowerCase().includes("cartoon")
-    ).length;
-    setGenerecartoon(cartoon);
-    const drama = movies.filter((movie) =>
-      movie.genere.toLowerCase().includes("drama")
-    ).length;
-    setGeneredrama(drama);
-    const action = movies.filter((movie) =>
-      movie.genere.toLowerCase().includes("action")
-    ).length;
-    setGenereaction(action);
-    const horror = movies.filter((movie) =>
-      movie.genere.toLowerCase().includes("horror")
-    ).length;
-    setGenerehorror(horror);
+        const scifi = movies.filter((movie) =>
+          movie.genere.toLowerCase().includes("sci-fi")
+        ).length;
+        setGenerescifi(scifi);
+
+        const cartoon = movies.filter((movie) =>
+          movie.genere.toLowerCase().includes("cartoon")
+        ).length;
+        setGenerecartoon(cartoon);
+
+        const drama = movies.filter((movie) =>
+          movie.genere.toLowerCase().includes("drama")
+        ).length;
+        setGeneredrama(drama);
+
+        const action = movies.filter((movie) =>
+          movie.genere.toLowerCase().includes("action")
+        ).length;
+        setGenereaction(action);
+
+        const horror = movies.filter((movie) =>
+          movie.genere.toLowerCase().includes("horror")
+        ).length;
+        setGenerehorror(horror);
+      }
+    };
+
+    fetchData();
   }, [movies]);
 
   return (

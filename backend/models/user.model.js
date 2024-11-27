@@ -1,10 +1,61 @@
+// import mongoose from "mongoose";
+
+// const userSchema = new mongoose.Schema(
+//   {
+//     username: {
+//       type: String,
+//       required: true,
+//     },
+//     password: {
+//       type: String,
+//       required: true,
+//     },
+//     role: {
+//       type: String,
+//       default: "",
+//       required: false,
+//     },
+//     img: {
+//       type: String,
+//       default: "",
+//       required: false,
+//     },
+//     phone: {
+//       type: String,
+//       default: "",
+//       required: false,
+//     },
+//     dob: {
+//       type: String,
+//       default: "",
+//       required: false,
+//     },
+//     bio: {
+//       type: String,
+//       default: "",
+//       required: false,
+//     },
+//   },
+//   {
+//     timestamps: true,
+//   }
+// );
+
+// const User = mongoose.model("User", userSchema);
+
+// export default User;
+
 import mongoose from "mongoose";
+import bcrypt from "bcrypt";
 
 const userSchema = new mongoose.Schema(
   {
     username: {
       type: String,
       required: true,
+      trim: true,
+      unique: true,
+      minlength: 3,
     },
     password: {
       type: String,
@@ -12,29 +63,63 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      required: false,
+      default: "user",
     },
     img: {
       type: String,
-      required: false,
+      default: "",
     },
     phone: {
       type: String,
-      required: true,
+      default: "",
     },
     dob: {
       type: String,
-      required: true,
+      default: "",
     },
     bio: {
       type: String,
-      required: false,
+      default: "",
     },
   },
   {
     timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   }
 );
+
+// Hash password before saving
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) {
+    return next();
+  }
+  try {
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+    next();
+  } catch (err) {
+    next(err);
+  }
+});
+
+// Compare password instance method
+userSchema.methods.comparePassword = async function (candidatePassword) {
+  return bcrypt.compare(candidatePassword, this.password);
+};
+
+// // Virtual field for age
+// userSchema.virtual("age").get(function () {
+//   if (!this.dob) return null;
+//   const dob = new Date(this.dob);
+//   const diff = Date.now() - dob.getTime();
+//   return Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
+// });
+
+// // Static method to find users by role
+// userSchema.statics.findByRole = function (role) {
+//   return this.find({ role });
+// };
 
 const User = mongoose.model("User", userSchema);
 

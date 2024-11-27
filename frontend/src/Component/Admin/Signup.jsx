@@ -1,59 +1,45 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useGlobalContext } from "../../Context";
+import { useGlobalContext, useUserContext } from "../../Context";
 import axios from "axios";
 import { IoArrowBackSharp, IoEyeSharp } from "react-icons/io5";
+import { set } from "mongoose";
+import { FaEyeSlash } from "react-icons/fa";
 
 const Signup = () => {
-  const { user, logged, signOut, account, setnewuser } = useGlobalContext();
+  const { logged, accounts, setnewuser } = useGlobalContext();
+  const { users, fetchUsers, createUser, success, message } = useUserContext();
   let navigate = useNavigate();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);
   const [submited, setSubmitted] = useState(false);
 
-  // useEffect(() => {
-  //   setSubmitted(false);
-  // }, [logged]);
+  const [newUser, setNewUser] = useState({
+    username: "",
+    password: "",
+  });
 
-  function onSubmit() {
+  useEffect(() => {
+    fetchUsers();
+  }, [fetchUsers]);
+
+  // console.log(users);
+
+  const onSubmit = async () => {
     setSubmitted(true);
-    const maxId = Math.max(...account.map((acc) => parseInt(acc.id)));
-    const newid = maxId + 1;
-    const newUser = {
-      id: newid.toString(),
-      username,
-      password,
-      role: "",
-    };
 
-    console.log(newUser);
+    // Wait for createUser to complete and get its result
+    const result = await createUser(newUser);
 
-    const usercheck = account.find((acc) => acc.username === username);
-    if (!usercheck) {
-      axios
-        .post("http://localhost:3000/account", newUser)
-        .then((response) => {
-          console.log("You successfully created a new account");
-          console.log(response.data); // The newly created account object returned from the server
-          account.push(response.data); // Optionally, update your local 'account' array with the new account
-          setnewuser(newUser);
-          localStorage.setItem("movieforkhusernamekey", newUser.username);
-          onBlack();
-        })
-        .catch((error) => {
-          console.error("There was an error creating the account!", error);
-        });
+    if (result.success) {
+      alert(result.message);
     } else {
-      console.log("Username is already used");
-      console.log(account);
+      alert(result.message);
     }
-  }
+  };
 
   function onBlack() {
     navigate(-1);
-    setPassword("");
-    setUsername("");
+    setNewUser({ username: "", password: "" });
   }
 
   function onEyesToggle() {
@@ -70,10 +56,10 @@ const Signup = () => {
           <h1 className="text-center text-3xl font-semibold">Sign Up</h1>
           <span
             className={`mt-2 inline-block ${
-              submited && !logged ? "text-red-500" : "text-green-600"
+              !success ? "text-red-500" : "text-green-600"
             }`}
           >
-            {submited && !logged ? "Username is already used!" : ""}
+            {submited ? message : ""}
           </span>
           <div className="max-w-[500px] md:min-w-[400px] mt-1 border-zinc-700 py-2 px-4 rounded-xl border">
             <input
@@ -81,8 +67,10 @@ const Signup = () => {
               type="text"
               name="username"
               placeholder="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={newUser.username}
+              onChange={(e) =>
+                setNewUser({ ...newUser, username: e.target.value })
+              }
             />
           </div>
           <div className="mt-8 max-w-[500px] w-full border border-zinc-700 py-2 px-4 rounded-xl flex">
@@ -91,8 +79,10 @@ const Signup = () => {
               type={show ? "text" : "password"}
               name="password"
               placeholder="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={newUser.password}
+              onChange={(e) =>
+                setNewUser({ ...newUser, password: e.target.value })
+              }
             />
             <button type="button" onClick={onEyesToggle}>
               {show ? <FaEyeSlash /> : <IoEyeSharp />}

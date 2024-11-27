@@ -4,7 +4,6 @@ import { BsStarFill } from "react-icons/bs";
 import { BiArrowBack } from "react-icons/bi";
 import MovieCard from "../Card/MovieCard";
 import { useMovieContext } from "../../Context";
-import { set } from "mongoose";
 
 const MoviePlay = () => {
   const { name } = useParams();
@@ -32,14 +31,14 @@ const MoviePlay = () => {
     if (movieFilter) {
       setMovieInfo(movieFilter);
     }
-  }, [movies]);
+  }, [fetchMovies]);
 
   useEffect(() => {
     if (movieinfo) {
       const title = movieinfo.name;
       document.title = "watch " + title + " free - Moviesforkh";
     }
-  }, [movieinfo]);
+  }, []);
 
   useEffect(() => {
     if (movies.length === 0) return;
@@ -69,7 +68,7 @@ const MoviePlay = () => {
 
       setRandommovies(uniqueRandomMovies);
     }
-  }, [movies]);
+  }, []);
 
   return (
     <>
