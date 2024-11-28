@@ -51,16 +51,16 @@ const AddMovie = () => {
   return (
     <div>
       {/* Add form  */}
-      <section className={`w-full bg-opacity-40 pt-10`}>
-        <form className="p-3 w-full h-full rounded-xl lg:max-w-[1200px] mx-auto">
+      <section className={`w-full pt-10`}>
+        <form className="p-3 w-full h-full rounded-xl lg:max-w-[1200px]">
           <h1 className="text-3xl text-gray-400 font-semibol">Add new movie</h1>
           <div className="grid grid-cols-12 mt-12">
-            <label className="col-span-1 " htmlFor="name">
+            <label className="col-span-2 " htmlFor="name">
               Name
             </label>
             <input
               type="text"
-              className={`col-span-11 focus:outline-none text-black rounded-md px-2 py-1 ${
+              className={`col-span-10 focus:outline-none text-black rounded-md px-2 py-1 ${
                 subwarning && !newMovie.name
                   ? "placeholder:text-red-600"
                   : "placeholder:text-gray-500"
@@ -75,12 +75,12 @@ const AddMovie = () => {
             />
           </div>
           <div className="grid grid-cols-12 mt-3">
-            <label className="col-span-1 " htmlFor="img">
+            <label className="col-span-2 " htmlFor="img">
               Poster
             </label>
             <input
               type="text"
-              className={`col-span-11 focus:outline-none text-black rounded-md px-2 py-1 ${
+              className={`col-span-10 focus:outline-none text-black rounded-md px-2 py-1 ${
                 subwarning && !newMovie.img
                   ? "placeholder:text-red-600"
                   : "placeholder:text-gray-500"
@@ -95,12 +95,12 @@ const AddMovie = () => {
             />
           </div>
           <div className="grid grid-cols-12 mt-3">
-            <label className="col-span-1 " htmlFor="cover">
+            <label className="col-span-2 " htmlFor="cover">
               Cover
             </label>
             <input
               type="text"
-              className={`col-span-11 focus:outline-none text-black rounded-md px-2 py-1 ${
+              className={`col-span-10 focus:outline-none text-black rounded-md px-2 py-1 ${
                 subwarning && !newMovie.cover
                   ? "placeholder:text-red-600"
                   : "placeholder:text-gray-500"
@@ -115,12 +115,12 @@ const AddMovie = () => {
             />
           </div>
           <div className="grid grid-cols-12 mt-3">
-            <label className="col-span-1 " htmlFor="rate">
+            <label className="col-span-2 " htmlFor="rate">
               Rate
             </label>
             <input
               type="number"
-              className={`col-span-11 focus:outline-none text-black rounded-md px-2 py-1 ${
+              className={`col-span-10 focus:outline-none text-black rounded-md px-2 py-1 ${
                 subwarning && !newMovie.rate
                   ? "placeholder:text-red-600"
                   : "placeholder:text-gray-500"
@@ -135,12 +135,12 @@ const AddMovie = () => {
             />
           </div>
           <div className="grid grid-cols-12 mt-3">
-            <label className="col-span-1 " htmlFor="runtime">
+            <label className="col-span-2 " htmlFor="runtime">
               Runtime
             </label>
             <input
               type="number"
-              className={`col-span-11 focus:outline-none text-black rounded-md px-2 py-1 ${
+              className={`col-span-10 focus:outline-none text-black rounded-md px-2 py-1 ${
                 subwarning && !newMovie.runtime
                   ? "placeholder:text-red-600"
                   : "placeholder:text-gray-500"
@@ -155,11 +155,11 @@ const AddMovie = () => {
             />
           </div>
           <div className="grid grid-cols-12 mt-3">
-            <label className="col-span-1 " htmlFor="rate">
+            <label className="col-span-2 " htmlFor="rate">
               Genere
             </label>
             <select
-              className={`w-full col-span-11 outline-none ${
+              className={`w-full col-span-10 outline-none ${
                 subwarning && !newMovie.genere ? "text-red-600" : "text-black"
               }`}
               name="genere"
@@ -187,11 +187,11 @@ const AddMovie = () => {
             </select>
           </div>
           <div className="grid grid-cols-12 mt-3">
-            <label className="col-span-1 " htmlFor="rate">
+            <label className="col-span-2 " htmlFor="rate">
               Type
             </label>
             <div
-              className="col-span-11 flex gap-5
+              className="col-span-10 flex gap-5
             "
             >
               <div className="flex items-center gap-2">
@@ -205,7 +205,7 @@ const AddMovie = () => {
                   }
                   required
                 />
-                <label className="col-span-1 " htmlFor="type">
+                <label className="col-span-2 " htmlFor="type">
                   movie
                 </label>
               </div>
@@ -220,19 +220,56 @@ const AddMovie = () => {
                   }
                   required
                 />
-                <label className="col-span-1 " htmlFor="type">
+                <label className="col-span-2 " htmlFor="type">
                   tv-show
                 </label>
               </div>
             </div>
           </div>
           <div className="grid grid-cols-12 mt-3">
-            <label className="col-span-1 " htmlFor="release">
+            <label className="col-span-2" htmlFor="rate">
+              Trending
+            </label>
+            <div className="col-span-10 flex gap-5">
+              <div className="flex items-center gap-2">
+                <input
+                  type="radio"
+                  checked={newMovie.trending === true ? true : false}
+                  className="rounded-full px-2 py-1 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600"
+                  name="trending"
+                  onChange={(e) =>
+                    setNewMovie({
+                      ...newMovie,
+                      trending: true, // Convert to boolean
+                    })
+                  }
+                />
+                <label htmlFor="trending">Trending</label>
+              </div>
+              <div className="flex items-center gap-2">
+                <input
+                  type="radio"
+                  checked={newMovie.trending === false ? true : false}
+                  className="rounded-full px-2 py-1 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600"
+                  name="trending"
+                  onChange={(e) =>
+                    setNewMovie({
+                      ...newMovie,
+                      trending: false,
+                    })
+                  }
+                />
+                <label htmlFor="trending">Not Trending</label>
+              </div>
+            </div>
+          </div>
+          <div className="grid grid-cols-12 mt-3">
+            <label className="col-span-2 " htmlFor="release">
               Release year
             </label>
             <input
               type="text"
-              className={`col-span-11 focus:outline-none text-black rounded-md px-2 py-1 ${
+              className={`col-span-10 focus:outline-none text-black rounded-md px-2 py-1 ${
                 subwarning && !newMovie.release
                   ? "placeholder:text-red-600"
                   : "placeholder:text-gray-500"
@@ -247,16 +284,18 @@ const AddMovie = () => {
             />
           </div>
           <div className="grid grid-cols-12 mt-3">
-            <label className="col-span-1 " htmlFor="detail">
+            <label className="col-span-2 " htmlFor="detail">
               Plot
             </label>
-            <input
+            <textarea
               type="text"
-              className={`col-span-11 focus:outline-none text-black rounded-md px-2 py-1 ${
+              className={`col-span-10 focus:outline-none text-black rounded-md px-2 py-1 ${
                 subwarning && !newMovie.detail
                   ? "placeholder:text-red-600"
                   : "placeholder:text-gray-500"
               }`}
+              rows="4"
+              cols="50"
               placeholder="plot"
               name="detail"
               value={newMovie.detail}
@@ -264,15 +303,15 @@ const AddMovie = () => {
                 setNewMovie({ ...newMovie, detail: e.target.value })
               }
               required
-            />
+            ></textarea>
           </div>
           <div className="grid grid-cols-12 mt-3">
-            <label className="col-span-1 " htmlFor="source">
+            <label className="col-span-2 " htmlFor="source">
               Source
             </label>
             <input
               type="text"
-              className={`col-span-11 focus:outline-none text-black rounded-md px-2 py-1 ${
+              className={`col-span-10 focus:outline-none text-black rounded-md px-2 py-1 ${
                 subwarning && !newMovie.source
                   ? "placeholder:text-red-600"
                   : "placeholder:text-gray-500"

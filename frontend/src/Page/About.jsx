@@ -11,13 +11,13 @@ import { Link } from "react-router-dom";
 const About = () => {
   return (
     <>
-      <div className="max-w-[1220px] m-auto grid px-2">
+      <div className="max-w-[1400px] mx-auto grid px-2">
         <section className="md:grid grid-cols-12 gap-8 md:mt-20 mt-10 flex flex-col-reverse">
           <div className="col-span-7 flex justify-center flex-col">
             <span>ABOUT US</span>
             <p className="mt-2 text-4xl font-medium max-w-[450px]">
               <span className="text-orange-400 font-medium">Moviesforkh</span>,
-              launched in 2024, is a free movie streaming site developed by{" "}
+              launched in 2024, is a free movie streaming site developed by
               <span className="text-orange-400 font-medium">Samon</span>.
             </p>
             <p className="mt-6">

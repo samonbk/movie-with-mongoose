@@ -67,7 +67,7 @@ const DashBoard = () => {
 
   return (
     <>
-      <div className="max-w-[1570px] m-auto px-2">
+      <div className="max-w-[1570px] px-2">
         <div className="flex justify-between items-center">
           <h1 className="text-2xl text-gray-500 mt-4">Dashboard</h1>
         </div>

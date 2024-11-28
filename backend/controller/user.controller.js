@@ -24,7 +24,7 @@ export const createUser = async (req, res) => {
 
   try {
     await newUser.save();
-    res.status(201).json({ success: true, data: newUser });
+    User.res.status(201).json({ success: true, data: newUser });
   } catch (error) {
     console.error("Error creating new user", error.message);
     res.status(500).json({ success: false, message: "Server Error" });

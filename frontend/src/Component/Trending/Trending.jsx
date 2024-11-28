@@ -1,15 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
+import { BiPlayCircle } from "react-icons/bi";
+import { Link } from "react-router-dom";
+import { BsStarFill } from "react-icons/bs";
+import { useMovieContext } from "../../Context";
+import { FaPlay } from "react-icons/fa";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "../Trending/Trending.css";
-import { BiPlayCircle } from "react-icons/bi";
-import { Link } from "react-router-dom";
-import { BsStarFill } from "react-icons/bs";
-import { useGlobalContext, useMovieContext } from "../../Context";
-import { FaPlay } from "react-icons/fa";
 
 const Trending = () => {
   const { movies, fetchMovies } = useMovieContext();
@@ -41,6 +41,7 @@ const Trending = () => {
               slidesPerView: 1,
             },
           }}
+          loop={true}
           modules={[Navigation, Pagination, Autoplay]}
           className="mySwiper w-full"
         >

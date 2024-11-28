@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 import DashNavbar from "./DashNavbar";
 import { BiMenu } from "react-icons/bi";
@@ -6,13 +6,29 @@ import { useGlobalContext } from "../../Context";
 
 const DashboardLayout = () => {
   const { user, logged, signOut } = useGlobalContext();
+
+  const [show, setShow] = useState(false);
+
   return (
-    <div className="relative w-screen">
-      <DashNavbar />
-      <div className="pl-[300px] pr-3">
-        <div className="w-full rounded-xl h-[70px] mt-4 bg-slate-600 flex items-center px-4 justify-between">
+    <div className="relative w-full pr-3">
+      <div
+        className={`fixed w-[290px] top-0 ${
+          show ? "left-0" : "left-[-300px]"
+        } transition-all duration-300`}
+      >
+        <DashNavbar />
+      </div>
+      <div
+        className={`${
+          show ? "pl-[300px]" : "pl-[10px]"
+        } max-w-full transition-all duration-300`}
+      >
+        <div className="rounded-xl h-[70px] mt-4 bg-slate-600 flex items-center px-4 justify-between">
           <div className="flex items-center gap-4">
-            <div className="text-3xl flex items-center">
+            <div
+              className="text-3xl flex items-center"
+              onClick={() => setShow(!show)}
+            >
               <BiMenu />
             </div>
             <h1 className="text-2xl">Admin</h1>

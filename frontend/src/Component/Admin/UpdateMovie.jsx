@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useMovieContext } from "../../Context";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const UpdateMovie = () => {
   const [subwarning, setSubwarning] = useState(false);
@@ -63,9 +63,9 @@ const UpdateMovie = () => {
     <div>
       {/* Add form  */}
       <section className={`w-full bg-opacity-40 pt-10`}>
-        <form className="p-3 w-full h-full rounded-xl lg:max-w-[1200px] mx-auto">
+        <form className="p-3 w-full h-full rounded-xl lg:max-w-[1200px]">
           <h1 className="text-3xl text-gray-400 font-semibol">Update movie</h1>
-          <div className="grid grid-cols-12 mt-12">
+          <div className="grid grid-cols-1 md:grid-cols-12 mt-12">
             <label className="col-span-1 " htmlFor="name">
               Name
             </label>
@@ -85,7 +85,7 @@ const UpdateMovie = () => {
               required
             />
           </div>
-          <div className="grid grid-cols-12 mt-3">
+          <div className="grid grid-cols-1 md:grid-cols-12 mt-3">
             <label className="col-span-1 " htmlFor="img">
               Poster
             </label>
@@ -105,7 +105,7 @@ const UpdateMovie = () => {
               required
             />
           </div>
-          <div className="grid grid-cols-12 mt-3">
+          <div className="grid grid-cols-1 md:grid-cols-12 mt-3">
             <label className="col-span-1 " htmlFor="cover">
               Cover
             </label>
@@ -125,7 +125,7 @@ const UpdateMovie = () => {
               required
             />
           </div>
-          <div className="grid grid-cols-12 mt-3">
+          <div className="grid grid-cols-1 md:grid-cols-12 mt-3">
             <label className="col-span-1 " htmlFor="rate">
               Rate
             </label>
@@ -145,7 +145,7 @@ const UpdateMovie = () => {
               required
             />
           </div>
-          <div className="grid grid-cols-12 mt-3">
+          <div className="grid grid-cols-1 md:grid-cols-12 mt-3">
             <label className="col-span-1 " htmlFor="runtime">
               Runtime
             </label>
@@ -165,7 +165,7 @@ const UpdateMovie = () => {
               required
             />
           </div>
-          <div className="grid grid-cols-12 mt-3">
+          <div className="grid grid-cols-1 md:grid-cols-12 mt-3">
             <label className="col-span-1 " htmlFor="rate">
               Genere
             </label>
@@ -199,7 +199,7 @@ const UpdateMovie = () => {
               </option>
             </select>
           </div>
-          <div className="grid grid-cols-12 mt-3">
+          <div className="grid grid-cols-1 md:grid-cols-12 mt-3">
             <label className="col-span-1 " htmlFor="rate">
               Type
             </label>
@@ -241,7 +241,7 @@ const UpdateMovie = () => {
               </div>
             </div>
           </div>
-          <div className="grid grid-cols-12 mt-3">
+          <div className="grid grid-cols-1 md:grid-cols-12 mt-3">
             <label className="col-span-1" htmlFor="rate">
               Trending
             </label>
@@ -279,7 +279,7 @@ const UpdateMovie = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-12 mt-3">
+          <div className="grid grid-cols-1 md:grid-cols-12 mt-3">
             <label className="col-span-1 " htmlFor="release">
               Release year
             </label>
@@ -299,11 +299,11 @@ const UpdateMovie = () => {
               required
             />
           </div>
-          <div className="grid grid-cols-12 mt-3">
+          <div className="grid grid-cols-1 md:grid-cols-12 mt-3">
             <label className="col-span-1 " htmlFor="detail">
               Plot
             </label>
-            <input
+            <textarea
               type="text"
               className={`col-span-11 focus:outline-none text-black rounded-md px-2 py-1 ${
                 subwarning && !updatedMovie.detail
@@ -311,15 +311,17 @@ const UpdateMovie = () => {
                   : "placeholder:text-gray-500"
               }`}
               placeholder="plot"
+              rows="4"
+              cols="5"
               name="detail"
               value={updatedMovie.detail}
               onChange={(e) =>
                 setUpdatedMovie({ ...updatedMovie, detail: e.target.value })
               }
               required
-            />
+            ></textarea>
           </div>
-          <div className="grid grid-cols-12 mt-3">
+          <div className="grid grid-cols-1 md:grid-cols-12 mt-3">
             <label className="col-span-1 " htmlFor="source">
               Source
             </label>
@@ -340,13 +342,13 @@ const UpdateMovie = () => {
             />
           </div>
           <div className="flex gap-8 mt-12">
-            <button
-              type="button"
+            <Link
+              to={`/admin`}
               className="w-24 h-10 flex items-center justify-center rounded-md bg-red-400 font-bold text-black"
               onClick={onCancel}
             >
               Cancel
-            </button>
+            </Link>
             <button
               type="button"
               onClick={handleUpdateMovie}
