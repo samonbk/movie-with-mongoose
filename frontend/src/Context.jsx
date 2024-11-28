@@ -100,9 +100,11 @@ export const useMovieContext = create((set) => ({
 
       const data = await res.json();
       set({ movies: data.data, isloading: false });
+      return { success: true };
     } catch (error) {
       console.error("Error fetching movies:", error);
       set({ movies: [] });
+      return { success: false };
     }
   },
   createMovie: async (newMovie) => {
