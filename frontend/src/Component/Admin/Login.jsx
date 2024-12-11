@@ -27,15 +27,12 @@ const Login = () => {
       const isMatch = await bcrypt.compare(password, userAccount.password);
 
       if (isMatch) {
-        // Successful login
         setnewuser({ ...userAccount });
         localStorage.setItem("movieforkhusernamekey", userAccount.username);
       } else {
-        // Password doesn't match
         console.log("Invalid username or password");
       }
     } else {
-      // Username not found
       console.log("Invalid username or password");
     }
   }

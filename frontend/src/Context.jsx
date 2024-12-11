@@ -37,7 +37,7 @@ const Context = ({ children }) => {
         });
     };
     fetchUsers();
-  }, [logged]);
+  }, []);
 
   useEffect(() => {}, []);
 

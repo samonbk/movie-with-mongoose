@@ -10,13 +10,13 @@ const DashBoard = () => {
 
   // console.log(user);
 
-  const [typemovie, setTypemovie] = useState(0);
-  const [typetvshow, setTypetvshow] = useState(0);
-  const [generescifi, setGenerescifi] = useState(0);
-  const [genereaction, setGenereaction] = useState(0);
-  const [generecartoon, setGenerecartoon] = useState(0);
-  const [generedrama, setGeneredrama] = useState(0);
-  const [generehorror, setGenerehorror] = useState(0);
+  const [typemovie, setTypemovie] = useState([]);
+  const [typetvshow, setTypetvshow] = useState([]);
+  const [generescifi, setGenerescifi] = useState([]);
+  const [genereaction, setGenereaction] = useState([]);
+  const [generecartoon, setGenerecartoon] = useState([]);
+  const [generedrama, setGeneredrama] = useState([]);
+  const [generehorror, setGenerehorror] = useState([]);
 
   useEffect(() => {
     if (!logged) {
@@ -26,8 +26,8 @@ const DashBoard = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      await fetchMovies();
-      if (movies) {
+      const data = await fetchMovies();
+      if (data.success) {
         const typetv = movies.filter(
           (movie) => movie.type === "tv-show"
         ).length;
@@ -63,7 +63,7 @@ const DashBoard = () => {
     };
 
     fetchData();
-  }, [movies]);
+  }, [fetchMovies]);
 
   return (
     <>

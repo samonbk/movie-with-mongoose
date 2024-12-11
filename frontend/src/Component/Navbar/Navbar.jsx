@@ -26,31 +26,33 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="flex m-auto max-w-[1570px] text-slate-300 justify-between lg:gap-20 gap-6 h-[70px] items-center">
-        <div className="logo-menu flex items-center md:gap-12 gap-6">
-          <button
-            className="text-2xl items-center flex px-3 h-8 rounded-md bg-slate-500"
-            onClick={onToggle}
-          >
-            <BiMenu />
-            <span className="text-sm md:inline hidden">Browse</span>
-          </button>
-          <Link to={"/"}>
-            <img
-              className="md:max-w-[130px] max-w-[100px]"
-              src={logo}
-              alt="logo"
-            />
-          </Link>
-        </div>
-        <div className="gap-6 flex items-center text-sm font-bold justify-end">
-          <div
-            className="md:hidden flex text-2xl items-center"
-            onClick={() => setShowsearch(!showsearch)}
-          >
-            <BiSearch />
+      <nav className="flex md:flex-row md:justify-between flex-col  max-w-[1570px] items-center mx-auto">
+        <nav className="flex m-auto w-full text-slate-300 justify-between lg:gap-20 gap-6 h-[70px] items-center">
+          <div className="logo-menu flex items-center md:gap-12 gap-6">
+            <button
+              className="text-2xl items-center flex px-3 h-8 rounded-md bg-slate-500"
+              onClick={onToggle}
+            >
+              <BiMenu />
+              <span className="text-sm md:inline hidden">Browse</span>
+            </button>
+            <Link to={"/"}>
+              <img
+                className="md:max-w-[130px] max-w-[100px]"
+                src={logo}
+                alt="logo"
+              />
+            </Link>
           </div>
-        </div>
+          <div className="gap-6 flex items-center text-sm font-bold justify-end">
+            <div
+              className="md:hidden flex text-2xl items-center"
+              onClick={() => setShowsearch(!showsearch)}
+            >
+              <BiSearch />
+            </div>
+          </div>
+        </nav>
         <div className={`md:flex w-full ${showsearch ? "block" : "hidden"}`}>
           <Search />
         </div>
